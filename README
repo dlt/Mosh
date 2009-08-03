@@ -1,0 +1,66 @@
+= Mosh (My Own Hash With Methods)
+ 
+http://github.com/dlt/Mosh
+ 
+== DESCRIPTION:
+ 
+Mosh is my own version of mash (http://github.com/mbleigh/mash/).
+I prefered to avoid method_missing and instead used instance_eval
+for creating methods.
+This library can be useful when you need to have hashes that look like
+objects.
+ 
+== SYNOPSIS:
+  
+  mosh = Mosh.new
+  mosh['name'] = "Hello"
+  mosh.name # => "Hello"
+  
+  #it recursively creates moshes from arrays and nested hashes/moshes
+  nested = Mosh.new :a => [1, 2, 3], :b => {:c => 2}
+  nested.a # => [1, 2, 3]
+  nested.b.c # => 2
+  
+  #See more info at the specs diretory. 
+== INSTALL:
+ 
+Gem:
+ 
+Mosh is hosted on the GitHub gem repository, so if you haven't already:
+ 
+  gem sources -a http://gems.github.com/
+  sudo gem install dlt-Mosh
+  
+Git:
+ 
+  git clone git://github.com/dlt/Mosh.git
+  
+== RESOURCES
+ 
+If you encounter any problems or have ideas for new features
+please send and e-mail to daltojr [] gmail [] com
+ 
+ 
+== LICENSE:
+ 
+Copyright (c) 2009 Dalto Curvelano Jr (http://daltojr.wordpress.com/),
+released under the MIT license
+ 
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+ 
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+ 
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
