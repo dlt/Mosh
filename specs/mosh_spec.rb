@@ -2,8 +2,7 @@ require '../mosh.rb'
 
 describe Mosh do
   before do
-    @array = [{'a' => 1, 'b' => 2}, {'b' => {'c' => {'d' => 10}}}]
-    @mosh = Mosh.new ({
+    @mosh = Mosh.new({
       'rss' => 'items',
       'links' => ['www.google.com', 'www.google.com.br', 'a string'],
       'category' => {'a' => 1},
@@ -11,30 +10,11 @@ describe Mosh do
     })
   end
 
-  it "should have a default handler that add methods based on the response hash keys" do
-    @mosh.first.respond_to?('a').should be_true
-    @mosh.first.respond_to?('c').should be_false
-
-    @mosh[1].respond_to?('b').should be_true
-    @mosh[1].respond_to?('b_c').should be_true
-    @mosh[1].respond_to?('b_c_d').should be_true
-    @mosh[1].respond_to?('c_d').should be_false
-    @mosh[1].respond_to?('b_d').should be_false
-
-    @mosh.respond_to?('rss').should be_true
-    @mosh.respond_to?('category').should be_true
-    @mosh.respond_to?('category_a').should be_true
-    @mosh.respond_to?('array').should be_true
-    @mosh.array.first.respond_to?('arr_item').should be_true
-
+  it "should inherit from hash" do
+    @mosh.is_a?(Hash).should be_true
   end
-
+  
   it "should have metaprogrammed methods to get hash values" do
-    @mosh.first.respond_to?('a').should be_true
-    @mosh.first.a.should == 1
-    @mosh.first.b.should == 2
-    @mosh[1].b_c_d.should == 10
-
     @mosh.rss.should == 'items'
 
     @mosh.links.should include('a string')
@@ -42,8 +22,44 @@ describe Mosh do
     @mosh.category.keys.should_not include('b')
 
     @mosh.category_a.should == 1
-    @mosh.category_a.should == @resp_hash.category['a']
+    @mosh.category_a.should == @mosh.category['a']
     @mosh.array.first.arr_item.should == 2
   end
 
+  it "should be able to retrieve hash values through method= calls" do
+    @mosh["test"]= "abc"
+    @mosh.test.should  == "abc"
+    @mosh[:taste] = "mint"
+    @mosh[:taste].should == "mint"
+    @mosh.taste.should  == "mint"
+  end
+
+  it "should convert hash assignments into moshes" do
+    @mosh['details'] = {:email => 'dalto@asf.com', :address => {:state => 'TX'} }
+    @mosh.details.email.should == 'dalto@asf.com'
+    @mosh.details.address.state.should == 'TX'
+  end
+
+  it "should convert hashes recursively into moshes" do
+  	converted = Mosh.new({:a => {:b => 1, :c => {:d => 23}}})
+    converted.a.is_a?(Mosh).should be_true
+    converted.a.b.should == 1
+    converted.a.c.d.should == 23
+  end
+
+  it "should convert hashes in arrays into moshes" do
+  	converted = Mosh.new({:a => [{:b => 12}, 23]})
+    converted.a.first.b.should == 12
+    converted.a.last.should == 23
+  end
+
+	it "should convert an existing Mosh into a Mosh" do
+  	initial = Mosh.new(:name => 'randy', :address => {:state => 'TX'})
+    copy = Mosh.new(initial)
+    initial.name.should == copy.name
+    initial.object_id.should_not == copy.object_id
+    copy.address.state.should == 'TX'
+    initial.address.state.should == 'TX'
+    copy.address.object_id.should_not == initial.address.object_id
+  end
 end
