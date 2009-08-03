@@ -1,6 +1,6 @@
 = Mosh (My Own Hash With Methods)
  
-http://github.com/dlt/Mosh
+http://github.com/dlt/mosh
  
 == DESCRIPTION:
  
@@ -29,7 +29,7 @@ Gem:
 Mosh is hosted on the GitHub gem repository, so if you haven't already:
  
   gem sources -a http://gems.github.com/
-  sudo gem install dlt-Mosh
+  sudo gem install dlt-mosh
   
 Git:
  

@@ -1,4 +1,4 @@
-require '../mosh.rb'
+require '../lib/mosh.rb'
 
 describe Mosh do
   before do
