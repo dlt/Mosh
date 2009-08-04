@@ -64,8 +64,8 @@ class Mosh < Hash
 
   def add_method(method_name, obj)
     keys    = method_name.split '_'
-    method = method_string(method_name.gsub(':','_'), keys)
-    obj.instance_eval method
+    method  = method_string(method_name.gsub(':','_'), keys)
+    obj.instance_eval method unless self.respond_to? method
   end
    
   def all_items_are_hashes?(array)
